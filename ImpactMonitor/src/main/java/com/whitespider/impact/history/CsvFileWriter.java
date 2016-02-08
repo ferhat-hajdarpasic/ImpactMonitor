@@ -1,18 +1,25 @@
-package com.whitespider.impact.ble.sensortag;
+package com.whitespider.impact.history;
 
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.whitespider.impact.ble.sensortag.MotionSensor;
 import com.whitespider.impact.util.Point3D;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CsvFileWriter {
 
@@ -27,7 +34,7 @@ public class CsvFileWriter {
     private static SimpleDateFormat FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
     public void addConcussionEvent(MotionSensor p, byte concussionSeverity) {
-        String fileName = CSV_FILE_PATH + File.separator + "data.csv";
+        String fileName = getCsvFilename();
         File f = new File(CSV_FILE_PATH);
         if(!f.exists()) {
             f.mkdirs();
@@ -69,6 +76,11 @@ public class CsvFileWriter {
     }
 
     @NonNull
+    public static String getCsvFilename() {
+        return CSV_FILE_PATH + File.separator + "data.csv";
+    }
+
+    @NonNull
     private CSVPrinter getCsvPrinter(FileWriter fileWriter) {
         try {
             return new CSVPrinter(fileWriter, csvFileFormat);
@@ -85,6 +97,56 @@ public class CsvFileWriter {
         } catch (IOException e) {
             Log.d(TAG, "Can't create writer.", e);
             throw new RuntimeException("Can't create writer.", e);
+        }
+    }
+
+    public List<HistoryItem> readHistory() {
+        List<HistoryItem> result =  new ArrayList<>();
+        String fileName = getCsvFilename();
+        File csv = new File(fileName);
+        if(csv.exists()) {
+            final Reader fileReader = getFileReader(csv);
+            try {
+                CSVParser parser = new CSVParser(fileReader, csvFileFormat);
+                final List<CSVRecord> csvRecords = parser.getRecords();
+                for (CSVRecord record : csvRecords.subList(1, csvRecords.size())) {
+                    HistoryItem item = new HistoryItem();
+                    item.setTime(record.get(0));
+                    item.setSeverity(Integer.parseInt(record.get(1)));
+                    item.setTotalAcceleration(getTotalAcceleration(record));
+                    item.setDirection(getDirection(record));
+                    result.add(item);
+                }
+            } catch (IOException e) {
+                Log.d(TAG, "Can't create CSV reader.", e);
+                throw new RuntimeException("Can't create CSV reader.", e);
+            } finally {
+                try {
+                    fileReader.close();
+                } catch (IOException e) {}
+            }
+        }
+        return result;
+    }
+
+    private Point3D getDirection(CSVRecord record) {
+        float ax = Float.valueOf(record.get(2));
+        float ay = Float.valueOf(record.get(3));
+        float az = Float.valueOf(record.get(4));
+        return new Point3D(ax, ay, az);
+    }
+
+    private double getTotalAcceleration(CSVRecord record) {
+        Point3D direction = getDirection(record);
+        return Math.sqrt(direction.x*direction.x + direction.y*direction.y + direction.z*direction.z);
+    }
+
+    private Reader getFileReader(File csv) {
+        try {
+            return new FileReader(csv);
+        } catch (IOException e) {
+            Log.d(TAG, "Can't create CSV reader.", e);
+            throw new RuntimeException("Can't create CSV reader.", e);
         }
     }
 }

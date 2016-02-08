@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.whitespider.impact.ble.common.GenericBluetoothProfile;
+import com.whitespider.impact.history.CsvFileWriter;
 
 import java.util.ArrayList;
 

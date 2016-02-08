@@ -1,9 +1,11 @@
-package com.whitespider.impact.ble.sensortag;
+package com.whitespider.impact.history;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.whitespider.impact.ble.sensortag.R;
 
 public class HistoryListRowHolder extends RecyclerView.ViewHolder {
     protected ImageView thumbnail;

@@ -4,10 +4,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import com.whitespider.impact.history.HistoryItemFragment;
+
 public class HeadGearSectionsPagerAdapter extends FragmentPagerAdapter {
     private Fragment[] fragments = new Fragment[] {
             new DebugFragment(),
-            new HistoryItemFragment(),
             new LiveDataFragment(),
             new ConcussionEventFragment(),
             new HistoryItemFragment()

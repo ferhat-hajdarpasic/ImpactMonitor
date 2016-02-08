@@ -1,4 +1,4 @@
-package com.whitespider.impact.ble.sensortag;
+package com.whitespider.impact.history;
 
 import android.app.Fragment;
 import android.os.AsyncTask;
@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.whitespider.impact.ble.sensortag.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,9 +74,7 @@ public class HistoryItemFragment extends Fragment {
         mRecyclerView = (RecyclerView)inflater.inflate(R.layout.fragment_historyitem_list, container, false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        /*Downloading data from below url*/
-        final String url = "http://javatechig.com/api/get_category_posts/?dev=1&slug=android";
-        new AsyncHttpTask().execute(url);
+        new AsyncHttpTask().execute();
 
         return mRecyclerView;
     }
@@ -109,41 +109,15 @@ public class HistoryItemFragment extends Fragment {
 
         @Override
         protected Integer doInBackground(String... params) {
-            InputStream inputStream = null;
             Integer result = 0;
-            HttpURLConnection urlConnection = null;
-
             try {
-                /* forming th java.net.URL object */
-                URL url = new URL(params[0]);
-
-                urlConnection = (HttpURLConnection) url.openConnection();
-
-                /* for Get request */
-                urlConnection.setRequestMethod("GET");
-
-                int statusCode = urlConnection.getResponseCode();
-
-                /* 200 represents HTTP OK */
-                if (statusCode ==  200) {
-
-                    BufferedReader r = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = r.readLine()) != null) {
-                        response.append(line);
-                    }
-
-                    parseResult(response.toString());
-                    result = 1; // Successful
-                }else{
-                    result = 0; //"Failed to fetch data!";
-                }
-
-            } catch (Exception e) {
-                Log.d(TAG, e.getLocalizedMessage());
+                CsvFileWriter writer = new CsvFileWriter();
+                feedItemList = writer.readHistory();
+                result = 1;
+            } catch(RuntimeException e) {
+                Log.e(TAG, "Failed to read CSV data!", e);
+                result = 0;
             }
-
             return result; //"Failed to fetch data!";
         }
 
@@ -160,28 +134,4 @@ public class HistoryItemFragment extends Fragment {
             }
         }
     }
-
-    private void parseResult(String result) {
-        try {
-            JSONObject response = new JSONObject(result);
-            JSONArray posts = response.optJSONArray("posts");
-
-            /*Initialize array if null*/
-            if (null == feedItemList) {
-                feedItemList = new ArrayList<HistoryItem>();
-            }
-
-            for (int i = 0; i < posts.length(); i++) {
-                JSONObject post = posts.optJSONObject(i);
-
-                HistoryItem item = new HistoryItem();
-                item.setTitle(post.optString("title"));
-                item.setThumbnail(post.optString("thumbnail"));
-                feedItemList.add(item);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
