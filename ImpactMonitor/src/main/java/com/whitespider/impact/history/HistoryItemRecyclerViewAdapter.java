@@ -49,13 +49,14 @@ public class HistoryItemRecyclerViewAdapter extends RecyclerView.Adapter<History
 
         feedListRowHolder.thumbnail.setImageBitmap(image);
         feedListRowHolder.title.setText(Html.fromHtml("<b>" + String.format("%.2f", feedItem.getTotalAcceleration()) + "g</b> " +
-                "Direction vector [" +
+                        "Direction vector [" +
                         String.format("%.2f", feedItem.getDirection().x) + ", " +
                         String.format("%.2f", feedItem.getDirection().y) + ", " +
                         String.format("%.2f", feedItem.getDirection().z) +
                         "]" +
-                "<p>Time " + feedItem.getTime()+"</p>"
+                        "<p>Time " + feedItem.getTime() + "</p>"
         ));
+        feedListRowHolder.title.setTag(feedItem);
     }
 
     public int getItemColor(HistoryItem feedItem) {

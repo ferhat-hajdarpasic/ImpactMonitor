@@ -34,7 +34,8 @@ import com.whitespider.impact.ble.common.BluetoothLeService;
 import com.whitespider.impact.ble.common.GattInfo;
 import com.whitespider.impact.ble.common.GenericBluetoothProfile;
 import com.whitespider.impact.ble.ti.profiles.TIOADProfile;
-
+import com.whitespider.impact.history.HistoryItem;
+import com.whitespider.impact.util.Point3D;
 
 
 @SuppressLint("InflateParams")
@@ -69,6 +70,7 @@ public class DeviceActivity extends ViewPagerActivity {
 	private DeviceActivityBroadcastReceiver mGattUpdateReceiver;
 	public SensorTagIoProfile mSensorTagIoProfile;
 	private SensorTagIoProfile sensorTagIoProfile;
+	private HistoryItem feedItem;
 
 	public DeviceActivity() {
 		mResourceFragmentPager = R.layout.fragment_pager;
@@ -183,8 +185,19 @@ public class DeviceActivity extends ViewPagerActivity {
 			break;
 		case R.id.visual:
 			Intent intent = new Intent(this, VisualHeadActivity.class);
-			intent.putExtra("Haba", "baba");
+			float x = 4.4f;
+			float y = 4.4f;
+			float z = 4.5f;
+			if(feedItem != null) {
+				x = (float)feedItem.getDirection().x;
+				y = (float)feedItem.getDirection().y;
+				z = (float)feedItem.getDirection().z;
+			}
+			intent.putExtra("accelerationX", x);
+			intent.putExtra("accelerationY", y);
+			intent.putExtra("accelerationZ", z);
 			startActivityForResult(intent, 1);
+
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -350,5 +363,22 @@ public class DeviceActivity extends ViewPagerActivity {
 
 	public SensorTagIoProfile getSensorTagIoProfile() {
 		return this.sensorTagIoProfile;
+	}
+
+	public void showHead(View view) {
+		feedItem = (HistoryItem)view.getTag();
+		Intent intent = new Intent(this, VisualHeadActivity.class);
+		float x = 4.4f;
+		float y = 4.4f;
+		float z = 4.5f;
+		if(feedItem != null) {
+			x = (float)feedItem.getDirection().x;
+			y = (float)feedItem.getDirection().y;
+			z = (float)feedItem.getDirection().z;
+		}
+		intent.putExtra("accelerationX", x);
+		intent.putExtra("accelerationY", y);
+		intent.putExtra("accelerationZ", z);
+		startActivityForResult(intent, 1);
 	}
 }

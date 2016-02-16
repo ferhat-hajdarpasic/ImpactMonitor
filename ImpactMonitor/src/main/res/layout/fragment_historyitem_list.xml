@@ -10,4 +10,6 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.whitespider.impact.history.HistoryItemFragment"
-    tools:listitem="@layout/fragment_historyitem" />
+    tools:listitem="@layout/fragment_historyitem"
+    android:clickable="true"
+    android:onClick="onItemClicked" />

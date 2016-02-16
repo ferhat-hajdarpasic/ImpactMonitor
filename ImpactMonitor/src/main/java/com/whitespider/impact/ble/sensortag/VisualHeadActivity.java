@@ -3,6 +3,8 @@ package com.whitespider.impact.ble.sensortag;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -111,7 +113,18 @@ public class VisualHeadActivity extends AndroidApplication {
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-        initialize(new VisualHeadRenderer(), config);
+
+//        final Intent parentIntent =  getParentActivityIntent();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            Float accelerationX = extras.getFloat("accelerationX");
+            Float accelerationY = extras.getFloat("accelerationY");
+            Float accelerationZ = extras.getFloat("accelerationZ");
+            initialize(new VisualHeadRenderer(accelerationX, accelerationY, accelerationZ), config);
+        } else {
+            initialize(new VisualHeadRenderer(0.5f, 0.5f, 0.5f), config);
+        }
 
     }
 

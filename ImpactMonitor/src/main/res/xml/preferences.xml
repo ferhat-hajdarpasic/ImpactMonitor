@@ -11,7 +11,7 @@
         <EditTextPreference
             android:key="@string/sampling_frequency"
             android:summary="Motion sensor sampling frequency [milliseconds]."
-            android:defaultValue="100"
+            android:defaultValue="10"
             android:persistent="true"
             android:title="Sampling Frequency" />
     </PreferenceCategory>
@@ -19,33 +19,34 @@
         <EditTextPreference
             android:key="@string/keep_track_level"
             android:summary="keep track of any shock above acceleration"
-            android:defaultValue="10"
+            android:defaultValue="100"
             android:persistent="true"
             android:title="Keep-Track [g]" />
-        <EditTextPreference
+        <com.whitespider.impact.util.HeadgearEditTestPreference
             android:key="@string/yellow_minor_shock"
             android:summary="keep track of any shock above this acceleration"
-            android:defaultValue="10"
+            android:defaultValue="210"
             android:persistent="true"
-            android:title="Minor shock - Yellow" />
-        <EditTextPreference
+            android:title="yellow"
+            />
+        <com.whitespider.impact.util.HeadgearEditTestPreference
             android:key="@string/orange_medium_shock"
             android:summary="keep track of any shock above this acceleration"
-            android:defaultValue="20"
+            android:defaultValue="220"
             android:persistent="true"
-            android:title="Medium shock - Orange" />
-        <EditTextPreference
+            android:title="orange" />
+        <com.whitespider.impact.util.HeadgearEditTestPreference
             android:key="@string/red_important_shock"
             android:summary="keep track of any shock above this acceleration"
-            android:defaultValue="30"
+            android:defaultValue="230"
             android:persistent="true"
-            android:title="Important shock - Red" />
-        <EditTextPreference
+            android:title="red" />
+        <com.whitespider.impact.util.HeadgearEditTestPreference
             android:key="@string/purple_severe_shock"
             android:summary="keep track of any shock above this acceleration"
-            android:defaultValue="40"
+            android:defaultValue="240"
             android:persistent="true"
-            android:title="Severe shock- Purple" />
+            android:title="purple" />
     </PreferenceCategory>
     
 </PreferenceScreen>

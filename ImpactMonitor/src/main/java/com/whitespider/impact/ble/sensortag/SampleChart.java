@@ -115,8 +115,8 @@ public class SampleChart implements OnChartValueSelectedListener {
         YAxis leftAxis = mChart.getAxisLeft();
         //leftAxis.setTypeface(tf);
         leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setAxisMaxValue(20f);
-        leftAxis.setAxisMinValue(-20f);
+        leftAxis.setAxisMaxValue(220f);
+        leftAxis.setAxisMinValue(-220f);
         leftAxis.setStartAtZero(false);
         leftAxis.setDrawGridLines(true);
 

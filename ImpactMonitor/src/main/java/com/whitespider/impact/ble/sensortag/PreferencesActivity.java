@@ -66,7 +66,7 @@ public class PreferencesActivity extends PreferenceActivity {
     super.onCreate(savedInstanceState);
     // Icon padding
     ImageView view = (ImageView) findViewById(android.R.id.home);
-    view.setPadding(10, 0, 20, 10);
+//    view.setPadding(10, 0, 20, 10);
     
   }
   

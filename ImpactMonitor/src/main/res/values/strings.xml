@@ -123,5 +123,8 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
+    <string name="minor_shock_title">Minor Shock - <font color='#D2950F'>Yellow</font></string>
+    <string name="medium_shock_title">Medium Shock - <font color='#E0711C'>Orange</font></string>
+    <string name="important_shock_title">Important Shock - <font color='#EF2630'>Red</font></string>
+    <string name="severe_shock_title">Severe Shock - <font color='#A3159F'>Purple</font></string>
 </resources>

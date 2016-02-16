@@ -23,7 +23,7 @@ import com.badlogic.gdx.math.Vector3;
 public class VisualHeadRenderer extends ApplicationAdapter {
 	private PerspectiveCamera camera;
 	private ModelBatch modelBatch;
-	private ModelInstance boxInstance;
+	private ModelInstance headInstance;
 	private Environment environment;
 	private int dragX, dragY;
 	private float lightIntensity = 1f;
@@ -31,6 +31,15 @@ public class VisualHeadRenderer extends ApplicationAdapter {
 	private ModelInstance arrowInstance;
 	private Model head;
 	private Model arrow;
+	private Float accelerationX;
+	private Float accelerationY;
+	private Float accelerationZ;
+
+	public VisualHeadRenderer(Float accelerationX, Float accelerationY, Float accelerationZ) {
+		this.accelerationX = accelerationX;
+		this.accelerationY = accelerationX;
+		this.accelerationZ = accelerationZ;
+	}
 
 	@Override
 	public void create () {
@@ -49,8 +58,8 @@ public class VisualHeadRenderer extends ApplicationAdapter {
 
 		modelBatch = new ModelBatch();
 		ModelBuilder modelBuilder = new ModelBuilder();
-		Model box = createHead();
-		boxInstance = new ModelInstance(box);
+		Model headModel = createHead();
+		headInstance = new ModelInstance(headModel);
 		Model arrow = createArrow();
 		arrowInstance = new ModelInstance(arrow);
 
@@ -123,12 +132,17 @@ public class VisualHeadRenderer extends ApplicationAdapter {
 
 	private Model createHead() {
 		ModelLoader loader = new ObjLoader();
-		Model model = loader.loadModel(Gdx.files.internal("data/MaleHead-Free_TurboSquid.obj"));
+		Model model = loader.loadModel(Gdx.files.internal("data/MaleHead.obj"));
 		return model;
 	}
 	private Model createArrow() {
-		Vector3 from = new Vector3(0.5f,0.5f,0);
-		Vector3 to = new Vector3(0.2f,0.2f,0);
+		double magnitude = Math.sqrt(accelerationX*accelerationX + accelerationY*accelerationY + accelerationZ*accelerationZ);
+		double x = accelerationX/magnitude;
+		double y = accelerationY/magnitude;
+		double z = accelerationZ/magnitude;
+		Vector3 from = new Vector3((float)x, (float)y, (float)z);
+		//Vector3 to = new Vector3((float)(x - 0.4), (float)(y - 0.4), (float)(z - 0.4));
+		Vector3 to = new Vector3((float)(0.1*x),(float)(0.1*y),(float)(0.1*z));
 		ModelBuilder modelBuilder = new ModelBuilder();
 		Model arrow = modelBuilder.createArrow(from, to,
 				new Material(ColorAttribute.createDiffuse(Color.RED)),
@@ -146,7 +160,7 @@ public class VisualHeadRenderer extends ApplicationAdapter {
 		camera.update();
 
 		modelBatch.begin(camera);
-		modelBatch.render(boxInstance, environment);
+		modelBatch.render(headInstance, environment);
 		modelBatch.render(arrowInstance, environment);
 		modelBatch.end();
 	}

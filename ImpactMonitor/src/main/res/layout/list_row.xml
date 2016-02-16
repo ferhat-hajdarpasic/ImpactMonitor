@@ -20,6 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_margin="8dp"
-        android:maxLines="3" />
+        android:maxLines="3"
+        android:onClick="showHead" />
 
 </LinearLayout>

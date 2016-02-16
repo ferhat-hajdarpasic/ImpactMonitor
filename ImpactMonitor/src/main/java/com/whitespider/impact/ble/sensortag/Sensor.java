@@ -62,6 +62,7 @@ import java.util.List;
 import java.util.UUID;
 import com.whitespider.impact.util.Point3D;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.support.annotation.NonNull;
 
 
 /**
@@ -122,12 +123,25 @@ public enum Sensor {
 	MOVEMENT_ACC(UUID_MOV_SERV,UUID_MOV_DATA, UUID_MOV_CONF,(byte)3) {
 		@Override
 		public Point3D convert(final byte[] value) {
+			return convert8g(value);
+		}
+
+		@NonNull
+		public Point3D convert200g(byte[] value) {
+			final float SCALE200G = (float) 0.049;
+			int x = toInt(value[7], value[6]);
+			int y = toInt(value[9], value[8]);
+			int z = toInt(value[11], value[10]);
+
+			return new Point3D(SCALE200G * x, SCALE200G * y, SCALE200G * z);
+		}
+		public Point3D convert8g(final byte[] value) {
 			// Range 8G
 			final float SCALE = (float) 4096.0;
 
 			int x = (value[7]<<8) + value[6];
 			int y = (value[9]<<8) + value[8];
-			int z = (value[11]<<8) + value[10]; 
+			int z = (value[11]<<8) + value[10];
 			return new Point3D(((x / SCALE) * -1), y / SCALE, ((z / SCALE)*-1));
 		}
 	},
@@ -137,9 +151,9 @@ public enum Sensor {
 
 			final float SCALE = (float) 128.0;
 
-			int x = (value[1]<<8) + value[0];
-			int y = (value[3]<<8) + value[2];
-			int z = (value[5]<<8) + value[4]; 
+			int x = (value[1]<<8) | value[0];
+			int y = (value[3]<<8) | value[2];
+			int z = (value[5]<<8) | value[4];
 			return new Point3D(x / SCALE, y / SCALE, z / SCALE);
 		}
 	},
@@ -148,9 +162,9 @@ public enum Sensor {
 		public Point3D convert(final byte[] value) {
 			final float SCALE = (float) (32768 / 4912);
 			if (value.length >= 18) {
-				int x = (value[13]<<8) + value[12];
-				int y = (value[15]<<8) + value[14];
-				int z = (value[17]<<8) + value[16]; 
+				int x = (value[13]<<8) | value[12];
+				int y = (value[15]<<8) | value[14];
+				int z = (value[17]<<8) | value[16];
 				return new Point3D(x / SCALE, y / SCALE, z / SCALE);
 			}
 			else return new Point3D(0,0,0);
@@ -166,16 +180,18 @@ public enum Sensor {
 			 * The z value is multiplied with -1 to coincide with how we have arbitrarily defined the positive y direction. (illustrated by the apps accelerometer
 			 * image)
 			 */
-			DeviceActivity da = DeviceActivity.getInstance();
+ 			DeviceActivity da = DeviceActivity.getInstance();
 
+			final float SCALE200G = (float) 0.049;
 			if (da.isSensorTag2()) {
 				// Range 8G
 				final float SCALE = (float) 4096.0;
 
-				int x = (value[0]<<8) + value[1];
-				int y = (value[2]<<8) + value[3];
-				int z = (value[4]<<8) + value[5]; 
-				return new Point3D(x / SCALE, y / SCALE, z / SCALE);
+				int x = toInt(value[0], value[1]);
+				int y = toInt(value[2], value[3]);
+				int z = toInt(value[4], value[5]);
+				return new Point3D(SCALE200G * x, SCALE200G * y, SCALE200G * z);
+				//return new Point3D(x / SCALE, y / SCALE, z / SCALE);
 			} else {
 				Point3D v;
 				Integer x = (int) value[0];
@@ -186,11 +202,13 @@ public enum Sensor {
 				{
 					// Range 8G
 					final float SCALE = (float) 64.0;
-					v = new Point3D(x / SCALE, y / SCALE, z / SCALE);
+					v =  new Point3D(SCALE200G * x, SCALE200G * y, SCALE200G * z);
+					//v = new Point3D(x / SCALE, y / SCALE, z / SCALE);
 				} else {
 					// Range 2G
 					final float SCALE = (float) 16.0;
-					v = new Point3D(x / SCALE, y / SCALE, z / SCALE);
+					v =  new Point3D(SCALE200G * x, SCALE200G * y, SCALE200G * z);
+					//v = new Point3D(x / SCALE, y / SCALE, z / SCALE);
 				}
 				return v;
 			}
@@ -326,6 +344,10 @@ public enum Sensor {
 			}
 		}
 	};
+
+	public static int toInt(byte b1, byte b0) {
+		return (b1<<8) + b0;
+	}
 
 	/**
 	 * Gyroscope, Magnetometer, Barometer, IR temperature all store 16 bit two's complement values as LSB MSB, which cannot be directly parsed

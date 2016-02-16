@@ -15,13 +15,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
 
-    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".SensorTagApplicationClass"
@@ -73,6 +73,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Preferences"
             android:parentActivityName=".DeviceActivity"
+            android:theme="@style/PreferenceScreen"
             android:screenOrientation="unspecified" />
         <activity
             android:name=".HeadGearActivity"

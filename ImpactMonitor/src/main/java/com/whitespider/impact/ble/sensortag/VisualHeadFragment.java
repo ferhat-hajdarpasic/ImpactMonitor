@@ -14,6 +14,6 @@ public class VisualHeadFragment extends AndroidFragmentApplication implements An
     // 5. Add the initializeForView() code in the Fragment's onCreateView method.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return initializeForView(new VisualHeadRenderer());
+        return initializeForView(new VisualHeadRenderer(1f,1f,1f));
     }
 }
