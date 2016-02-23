@@ -69,7 +69,9 @@ import android.support.v4.view.ViewPager;
 // import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ViewPagerActivity extends FragmentActivity {
   // Constants
@@ -84,7 +86,9 @@ public class ViewPagerActivity extends FragmentActivity {
   private int mCurrentTab = 0;
   protected Menu optionsMenu;
   private MenuItem refreshItem;
+  private Dialog busyDialog;
   protected boolean mBusy;
+  private TextView progressBarTextView;
 
   protected ViewPagerActivity() {
     // Log.d(TAG, "construct");
@@ -103,7 +107,7 @@ public class ViewPagerActivity extends FragmentActivity {
     final ActionBar actionBar = getActionBar();
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     ImageView view = (ImageView) findViewById(android.R.id.home);
-    view.setPadding(10, 0, 20, 10);
+    //view.setPadding(10, 0, 20, 10);
 
     // Set up the ViewPager with the sections adapter.
     mViewPager = (ViewPager) findViewById(mResourceIdPager);
@@ -119,6 +123,14 @@ public class ViewPagerActivity extends FragmentActivity {
 
     // Set up the ViewPager with the sections adapter.
     mViewPager.setAdapter(mSectionsPagerAdapter);
+
+    this.getActionBar().hide();
+
+    this.busyDialog = new Dialog(this);
+    this.busyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);;
+    this.busyDialog.setContentView(R.layout.frame_progress);
+    this.progressBarTextView = (TextView)this.busyDialog.findViewById(R.id.progressTextView);
+
   }
 
 
@@ -151,16 +163,12 @@ public class ViewPagerActivity extends FragmentActivity {
     }
   }
 
-  protected void showBusyIndicator(final boolean busy) {
+  protected void showBusyIndicator(final boolean busy, String message) {
   	if (optionsMenu != null) {
   		refreshItem = optionsMenu.findItem(R.id.opt_progress);
   		if (refreshItem != null) {
-  			if (busy) {
-  				refreshItem.setActionView(R.layout.frame_progress);
-  			} else {
-  				refreshItem.setActionView(null);
-  			}
-    		refreshItem.setVisible(busy);
+          showScanningProgressBar2(busy, message);
+          refreshItem.setVisible(busy);
   		} else {
     		// Log.e(TAG,"Refresh item not expanded");
   		}
@@ -169,6 +177,24 @@ public class ViewPagerActivity extends FragmentActivity {
   	}
   	mBusy = busy;
   }
+
+  private void showScanningProgressBar1(boolean busy, String message) {
+    if (busy) {
+        refreshItem.setActionView(R.layout.frame_progress);
+    } else {
+        refreshItem.setActionView(null);
+    }
+  }
+
+  protected void showScanningProgressBar2(final boolean busy, String message) {
+    if(busy) {
+      this.progressBarTextView.setText(message);
+      this.busyDialog.show();
+    } else {
+      this.busyDialog.hide();
+    }
+    mBusy = busy;
+  }
   
   protected void refreshBusyIndicator() {
   	if (refreshItem == null) {
@@ -176,7 +202,7 @@ public class ViewPagerActivity extends FragmentActivity {
 
   			@Override
   			public void run() {
-  				showBusyIndicator(mBusy);
+  				showBusyIndicator(mBusy, "Scanning...");
   			}
   		});
   	}

@@ -138,7 +138,7 @@ public class ScanView extends Fragment {
   }
 
   void setError(String txt) {
-    setBusy(false);
+    setBusy(false, "");
     stopTimers();
     mStatus.setText(txt);
     mStatus.setTextAppearance(mContext, R.style.statusStyle_Failure);
@@ -158,7 +158,7 @@ public class ScanView extends Fragment {
 		}
 	}
 
-	void setBusy(boolean f) {
+	void setBusy(boolean f, String message) {
 		if (f != mBusy) {
 			mBusy = f;
 			if (!mBusy) {
@@ -166,7 +166,7 @@ public class ScanView extends Fragment {
 				mBtnScan.setEnabled(true);	// Enable in case of connection timeout
 	      mDeviceAdapter.notifyDataSetChanged(); // Force enabling of all Connect buttons
 			}
-			mActivity.showBusyIndicator(f);
+			mActivity.showBusyIndicator(f, message);
 		}
 	}
 
@@ -174,7 +174,7 @@ public class ScanView extends Fragment {
     if (mBtnScan == null)
       return; // UI not ready
     
-    setBusy(scanning);
+    setBusy(scanning, "Scanning...");
 
     if (scanning) {
       // Indicate that scanning has started

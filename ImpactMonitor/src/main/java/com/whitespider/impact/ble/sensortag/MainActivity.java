@@ -297,7 +297,7 @@ public class MainActivity extends ViewPagerActivity {
 			mScanView.updateGui(mScanning);
 			if (!mScanning) {
 				setError("Device discovery start failed");
-				setBusy(false);
+				setBusy(false, "");
 			}
 		} else {
 			setError("BLE not supported on this device");
@@ -332,7 +332,7 @@ public class MainActivity extends ViewPagerActivity {
 		if (mScanning)
 			stopScan();
 
-		setBusy(true);
+		setBusy(true, "Connecting...");
 		mBluetoothDevice = mDeviceInfoList.get(pos).getBluetoothDevice();
 		if (mConnIndex == NO_DEVICE) {
 			mScanView.setStatus("Connecting");
@@ -389,8 +389,8 @@ public class MainActivity extends ViewPagerActivity {
 		}
 	}
 
-	private void setBusy(boolean f) {
-		mScanView.setBusy(f);
+	private void setBusy(boolean f, String message) {
+		mScanView.setBusy(f, message);
 	}
 
 	void setError(String txt) {
@@ -528,7 +528,7 @@ public class MainActivity extends ViewPagerActivity {
 				int status = intent.getIntExtra(BluetoothLeService.EXTRA_STATUS,
 				    BluetoothGatt.GATT_FAILURE);
 				if (status == BluetoothGatt.GATT_SUCCESS) {
-					setBusy(false);
+					setBusy(false, "");
 					//startDeviceActivity();
 					startHeadGearActivity();
 				} else
@@ -539,7 +539,7 @@ public class MainActivity extends ViewPagerActivity {
 				    BluetoothGatt.GATT_FAILURE);
 				stopDeviceActivity();
 				if (status == BluetoothGatt.GATT_SUCCESS) {
-					setBusy(false);
+					setBusy(false, "");
 					mScanView.setStatus(mBluetoothDevice.getName() + " disconnected",
 					    STATUS_DURATION);
 				} else {

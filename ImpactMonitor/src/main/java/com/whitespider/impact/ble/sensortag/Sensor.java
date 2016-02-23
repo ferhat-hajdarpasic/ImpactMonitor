@@ -63,6 +63,7 @@ import java.util.UUID;
 import com.whitespider.impact.util.Point3D;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 
 /**
@@ -123,7 +124,7 @@ public enum Sensor {
 	MOVEMENT_ACC(UUID_MOV_SERV,UUID_MOV_DATA, UUID_MOV_CONF,(byte)3) {
 		@Override
 		public Point3D convert(final byte[] value) {
-			return convert8g(value);
+			return convert200g(value);
 		}
 
 		@NonNull
@@ -133,7 +134,15 @@ public enum Sensor {
 			int y = toInt(value[9], value[8]);
 			int z = toInt(value[11], value[10]);
 
-			return new Point3D(SCALE200G * x, SCALE200G * y, SCALE200G * z);
+			Point3D result = new Point3D(SCALE200G * x, SCALE200G * y, SCALE200G * z);
+			Log.d(TAG, String.format("%02X%02X%02X%02X%02X%02X, %d, %d, %d, %f, %f, %f",
+					value[11], value[10],
+					value[9], value[8],
+					value[7], value[6],
+					x, y ,z,
+					result.x, result.y, result.z
+					));
+			return result;
 		}
 		public Point3D convert8g(final byte[] value) {
 			// Range 8G
@@ -345,8 +354,10 @@ public enum Sensor {
 		}
 	};
 
+	private static final String TAG = "Sensor";
+
 	public static int toInt(byte b1, byte b0) {
-		return (b1<<8) + b0;
+		return (b1<<8) | b0;
 	}
 
 	/**

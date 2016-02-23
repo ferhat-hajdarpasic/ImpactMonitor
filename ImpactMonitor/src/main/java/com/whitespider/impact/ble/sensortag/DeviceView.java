@@ -54,6 +54,7 @@
  **************************************************************************************************/
 package com.whitespider.impact.ble.sensortag;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -140,6 +141,6 @@ import android.widget.TableRow;
 	}
 
 	protected void showBusyIndicator(boolean f) {
-		mDeviceActivity.showBusyIndicator(f);
+		mDeviceActivity.showBusyIndicator(f, "Connecting...");
 	}
-	}
+}

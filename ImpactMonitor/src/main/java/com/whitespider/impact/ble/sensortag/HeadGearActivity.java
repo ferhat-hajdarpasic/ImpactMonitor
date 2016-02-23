@@ -25,6 +25,8 @@ public class HeadGearActivity extends DeviceActivity {
     private ConcussionLedInidicator concussionLedInidicator;
     private CsvFileWriter csvFileWriter = new CsvFileWriter();
 
+    int counterForLiveChart;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,9 @@ public class HeadGearActivity extends DeviceActivity {
 
     @Override
     protected void observeAcceleration(MotionSensor p) {
-        liveStreamingChart.observeAcceleration(p);
+        //if(counterForLiveChart++ % 10 == 0) {
+            liveStreamingChart.observeAcceleration(p);
+        //}
         byte concussionSeverity = concussionDetector.concussionSeverity(p);
         if(concussionSeverity != 0x00) {
             if(concussionChart != null) {
