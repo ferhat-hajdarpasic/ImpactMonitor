@@ -124,13 +124,13 @@ public class ViewPagerActivity extends FragmentActivity {
     // Set up the ViewPager with the sections adapter.
     mViewPager.setAdapter(mSectionsPagerAdapter);
 
-    this.getActionBar().hide();
+    this.getActionBar().setDisplayShowTitleEnabled(false);
+    this.getActionBar().setDisplayShowHomeEnabled(false);
 
     this.busyDialog = new Dialog(this);
     this.busyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);;
     this.busyDialog.setContentView(R.layout.frame_progress);
     this.progressBarTextView = (TextView)this.busyDialog.findViewById(R.id.progressTextView);
-
   }
 
 
@@ -227,7 +227,9 @@ public class ViewPagerActivity extends FragmentActivity {
       final ActionBar actionBar = getActionBar();
       mFragmentList.add(fragment);
       mTitles.add(title);
-      actionBar.addTab(actionBar.newTab().setText(title).setTabListener(tabListener));
+      //final ActionBar.Tab tab = actionBar.newTab().setText(title).setTabListener(tabListener);
+      final ActionBar.Tab tab = actionBar.newTab().setTabListener(tabListener);
+      actionBar.addTab(tab);
       notifyDataSetChanged();
       // Log.d(TAG, "Tab: " + title);
     }

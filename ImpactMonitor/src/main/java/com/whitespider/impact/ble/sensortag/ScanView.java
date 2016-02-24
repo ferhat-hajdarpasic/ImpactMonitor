@@ -71,6 +71,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.whitespider.impact.ble.common.BleDeviceInfo;
@@ -302,8 +303,6 @@ public class ScanView extends Fragment {
       String descr = name + "\n" + device.getAddress(); // + "\nRssi: " + rssi + " dBm";
       ((TextView) vg.findViewById(R.id.descr)).setText(descr);
       
-      ImageView iv = (ImageView)vg.findViewById(R.id.devImage);
-      iv.setImageResource(R.drawable.sensor);
       //if (name.equals("SensorTag2") || name.equals("CC2650 SensorTag"))
       //	iv.setImageResource(R.drawable.sensortag2_300);
       //else {

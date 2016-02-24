@@ -28,7 +28,7 @@
         android:allowBackup="false"
         android:icon="@drawable/concussion"
         android:label="@string/app_name"
-        android:theme="@android:style/ThemeOverlay.Material.Dark">
+        android:theme="@style/AppBaseTheme">
         <service
             android:name="com.whitespider.impact.ble.common.BluetoothLeService"
             android:enabled="true" />
