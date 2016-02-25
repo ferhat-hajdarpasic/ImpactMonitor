@@ -2,19 +2,20 @@ package com.whitespider.impact.history;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.whitespider.impact.ble.sensortag.R;
 
 public class HistoryListRowHolder extends RecyclerView.ViewHolder {
-    protected ImageView thumbnail;
-    protected TextView title;
+    protected ImageButton historyLevelImageButton;
+    protected TextView historyDetailsTextView;
 
     public HistoryListRowHolder(View view) {
         super(view);
-        this.thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-        this.title = (TextView) view.findViewById(R.id.title);
+        this.historyLevelImageButton = (ImageButton) view.findViewById(R.id.historyLevelImageButton);
+        this.historyDetailsTextView = (TextView) view.findViewById(R.id.historyDetailsTextView);
     }
 
 }

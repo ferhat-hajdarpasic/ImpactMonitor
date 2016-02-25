@@ -8,7 +8,7 @@
     <item
         android:id="@+id/opt_prefs"
         android:orderInCategory="1"
-        android:showAsAction="ifRoom"
+        android:showAsAction="never"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/prefs"/>
 </menu>

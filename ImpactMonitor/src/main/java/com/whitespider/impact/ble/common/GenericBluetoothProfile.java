@@ -87,6 +87,10 @@ public class GenericBluetoothProfile {
 		this.configC = null;
 		this.context = con;
 	}
+	public void onResume() {
+	}
+	public void onPause() {
+	}
 	public static boolean isCorrectService(BluetoothGattService service) {
 		//Always return false in parent class
 		return false;

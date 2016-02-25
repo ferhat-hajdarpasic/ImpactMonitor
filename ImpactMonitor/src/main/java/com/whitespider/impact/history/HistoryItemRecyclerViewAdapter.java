@@ -1,7 +1,9 @@
 package com.whitespider.impact.history;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,6 +21,11 @@ import java.util.List;
 
 public class HistoryItemRecyclerViewAdapter extends RecyclerView.Adapter<HistoryListRowHolder> {
 
+    public static final String HEADGEAR_YELLOW = "#FDAD01";
+    public static final String HEADGEAR_ORANGE = "#FD3201";
+    public static final String HEADGEAR_PURPLE = "#CE00A8";
+    public static final String HEADGEAR_RED = "#FD0001";
+    public static final String HEADGEAR_GRAY = "#6C6C6C";
     private List<HistoryItem> feedItemList;
 
     private Context mContext;
@@ -40,37 +47,41 @@ public class HistoryItemRecyclerViewAdapter extends RecyclerView.Adapter<History
     public void onBindViewHolder(final HistoryListRowHolder feedListRowHolder, int i) {
         HistoryItem feedItem = feedItemList.get(i);
         Rect rect = new Rect(0, 0, 1, 1);
-        Bitmap image = Bitmap.createBitmap(rect.width(), rect.height(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(image);
+        String colorCode = getItemColorAsString(feedItem);
         int color = getItemColor(feedItem);
-        Paint paint = new Paint();
-        paint.setColor(color);
-        canvas.drawRect(rect, paint);
 
-        feedListRowHolder.thumbnail.setImageBitmap(image);
-        feedListRowHolder.title.setText(Html.fromHtml("<b>" + String.format("%.2f", feedItem.getTotalAcceleration()) + "g</b> " +
-                        "Direction vector [" +
-                        String.format("%.2f", feedItem.getDirection().x) + ", " +
-                        String.format("%.2f", feedItem.getDirection().y) + ", " +
-                        String.format("%.2f", feedItem.getDirection().z) +
-                        "]" +
-                        "<p>Time " + feedItem.getTime() + "</p>"
-        ));
-        feedListRowHolder.title.setTag(feedItem);
+        //feedListRowHolder.historyLevelImageButton.setImageBitmap(image);
+        final String html =
+                "<b>" + String.format("%.2f", feedItem.getTotalAcceleration()) + " G</b>" +
+                " <p>Recorded on " + feedItem.getTime() + "</p>";
+        feedListRowHolder.historyDetailsTextView.setText(Html.fromHtml(html));
+        feedListRowHolder.historyDetailsTextView.setTag(feedItem);
+
+        if(feedItem.getSeverity() >= 3) {
+            feedListRowHolder.historyDetailsTextView.setTextColor(color);
+            Bitmap errorImage = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.error);
+            feedListRowHolder.historyLevelImageButton.setImageBitmap(errorImage);
+        } else {
+            feedListRowHolder.historyDetailsTextView.setTextColor(Color.parseColor(HEADGEAR_GRAY));
+        }
     }
 
     public int getItemColor(HistoryItem feedItem) {
+        return Color.parseColor(getItemColorAsString(feedItem));
+    }
+
+    public String getItemColorAsString(HistoryItem feedItem) {
         switch(feedItem.getSeverity()) {
             case 1:
-                return Color.YELLOW;
+                return HEADGEAR_YELLOW;
             case 2:
-                return Color.rgb(255, 221,100);
+                return HEADGEAR_ORANGE;
             case 3:
-                return Color.rgb(255, 162,100);
+                return HEADGEAR_PURPLE;
             case 4:
-                return Color.RED;
+                return HEADGEAR_RED;
             default:
-                return Color.GRAY;
+                return HEADGEAR_GRAY;
         }
     }
 

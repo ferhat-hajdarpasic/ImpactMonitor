@@ -220,6 +220,24 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                         }
                         Log.d("DeviceActivity","Found Motion !");
                     }
+                    if (SensorTagAccelerometerProfile.isCorrectService(s)) {
+                        SensorTagAccelerometerProfile acc = new SensorTagAccelerometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
+                        deviceActivity.mProfiles.add(acc);
+                        if (nrNotificationsOn < maxNotifications) {
+                            acc.configureService();
+                            nrNotificationsOn++;
+                        }
+                        Log.d("DeviceActivity","Found Accelerometer !");
+                    }
+                    if (SensorTagGyroscopeProfile.isCorrectService(s)) {
+                        SensorTagGyroscopeProfile gyro = new SensorTagGyroscopeProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
+                        deviceActivity.mProfiles.add(gyro);
+                        if (nrNotificationsOn < maxNotifications) {
+                            gyro.configureService();
+                            nrNotificationsOn++;
+                        }
+                        Log.d("DeviceActivity","Found Gyroscope !");
+                    }
                     if (SensorTagIoProfile.isCorrectService(s)) {
                         final SensorTagIoProfile io = new SensorTagIoProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
                         io.configureService();
