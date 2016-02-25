@@ -77,9 +77,9 @@ public class HistoryItemRecyclerViewAdapter extends RecyclerView.Adapter<History
             case 2:
                 return HEADGEAR_ORANGE;
             case 3:
-                return HEADGEAR_PURPLE;
-            case 4:
                 return HEADGEAR_RED;
+            case 4:
+                return HEADGEAR_PURPLE;
             default:
                 return HEADGEAR_GRAY;
         }

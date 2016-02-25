@@ -22,27 +22,68 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true" />
 
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="200px"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textViewAcceleration"
-        android:layout_marginLeft="70px"
-        android:textColor="#a29ea6"
-        android:textSize="60dp"
-        android:layout_marginBottom="101dp"
-        android:layout_alignBottom="@+id/line_chart"
-        android:layout_alignEnd="@+id/line_chart"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_centerInParent="true"
-        android:elegantTextHeight="false"
-        android:textAlignment="center"
-        android:textIsSelectable="false"
-        android:singleLine="true" />
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/xyzAcceleration"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/scheduleImageView"
+                android:src="@drawable/ic_schedule_black_18dp"
+                android:background="@android:color/black"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="19:30"
+                android:id="@+id/concussionTimeTextView"
+                android:background="@android:color/black"
+                android:gravity="center" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/errorImageView"
+                android:src="@drawable/ic_error_black_18dp"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="HIGH CONCUSSION HIT"
+                android:id="@+id/concussionHighHit"
+                android:background="@android:color/transparent"
+                android:textAlignment="center"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/concussionMagnitudeTextView"
+            android:textSize="60dp"
+            android:textIsSelectable="false"
+            android:singleLine="true"
+            android:text="17:38 G"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:textStyle="italic" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -50,8 +91,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/xyzAcceleration"
         android:layout_alignBottom="@+id/line_chart"
-        android:layout_alignStart="@+id/textViewAcceleration"
-        android:layout_marginBottom="69dp"
-        android:layout_alignEnd="@+id/line_chart" />
+        android:layout_toEndOf="@+id/section_label" />
 
 </RelativeLayout>

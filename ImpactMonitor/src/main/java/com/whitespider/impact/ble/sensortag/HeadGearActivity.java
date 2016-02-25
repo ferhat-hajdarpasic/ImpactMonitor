@@ -8,12 +8,18 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.whitespider.impact.ble.common.GenericBluetoothProfile;
 import com.whitespider.impact.history.CsvFileWriter;
+import com.whitespider.impact.history.HistoryItemRecyclerViewAdapter;
+import com.whitespider.impact.util.CustomMarkerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HeadGearActivity extends DeviceActivity {
     private HeadGearSectionsPagerAdapter mSectionsPagerAdapter;
@@ -24,6 +30,8 @@ public class HeadGearActivity extends DeviceActivity {
     private ConcussionDetector concussionDetector;
     private ConcussionLedInidicator concussionLedInidicator;
     private CsvFileWriter csvFileWriter = new CsvFileWriter();
+    private TextView concussionTimeTextView;
+    private TextView concussionMagnitudeTextView;
 
     int counterForLiveChart;
 
@@ -38,6 +46,7 @@ public class HeadGearActivity extends DeviceActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         concussionDetector = new ConcussionDetector(this, prefs);
+
     }
 
     @Override
@@ -72,7 +81,12 @@ public class HeadGearActivity extends DeviceActivity {
                 concussionChart.startRecording(concussionDetector.getSamples());
                 concussionChart.indicateSeverity(concussionSeverity);
                 concussionLedInidicator.headGearLED(concussionSeverity);
+                concussionTimeTextView.setText(new SimpleDateFormat("hh:mm").format(new Date()));
 
+                final Double totalAcceleration = ConcussionDetector.getTotalAcceleration(p.getReading());
+
+                final String textG = String.format("%.2f G", totalAcceleration);
+                concussionMagnitudeTextView.setText(textG);
                 csvFileWriter.addConcussionEvent(p, concussionSeverity);
             }
         }
@@ -95,10 +109,24 @@ public class HeadGearActivity extends DeviceActivity {
         LineChart chart = (LineChart) rootView.findViewById(R.id.line_chart);
         liveStreamingChart = new SampleChart(chart, this);
         liveStreamingChart.onCreate();
+        liveStreamingChart.setBackgroundColor("#262626");
+        liveStreamingChart.setGridColor(HistoryItemRecyclerViewAdapter.HEADGEAR_GRAY);
+
+        rootView.findViewById(R.id.concussionTimeTextView).setVisibility(View.INVISIBLE);
+        rootView.findViewById(R.id.concussionMagnitudeTextView).setVisibility(View.INVISIBLE);
+        rootView.findViewById(R.id.concussionHighHit).setVisibility(View.INVISIBLE);
+        rootView.findViewById(R.id.errorImageView).setVisibility(View.INVISIBLE);
+        rootView.findViewById(R.id.scheduleImageView).setVisibility(View.INVISIBLE);
     }
     public void createConcussionChart(View rootView) {
         LineChart chart = (LineChart) rootView.findViewById(R.id.line_chart);
         concussionChart = new SampleChart(chart, this);
+        CustomMarkerView mv = new CustomMarkerView(this, R.layout.chart_marker);
+        concussionChart.setMarkerView(mv);
         concussionChart.onCreate();
+        concussionChart.setBackgroundColor("#262626");
+
+        concussionTimeTextView = (TextView)rootView.findViewById(R.id.concussionTimeTextView);
+        concussionMagnitudeTextView = (TextView)rootView.findViewById(R.id.concussionMagnitudeTextView);
     }
 }

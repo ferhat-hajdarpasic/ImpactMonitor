@@ -13,6 +13,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.whitespider.impact.history.HistoryItemRecyclerViewAdapter;
+import com.whitespider.impact.util.CustomMarkerView;
 
 import java.util.ArrayDeque;
 import java.util.Timer;
@@ -54,7 +56,7 @@ public class SampleChart implements OnChartValueSelectedListener {
 
         LineDataSet set = new LineDataSet(null, "Acceleration");
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setColor(ColorTemplate.getHoloBlue());
+        set.setColor(Color.parseColor(HistoryItemRecyclerViewAdapter.HEADGEAR_YELLOW));
         set.setCircleColor(Color.WHITE);
         set.setLineWidth(2f);
         set.setCircleSize(4f);
@@ -63,7 +65,7 @@ public class SampleChart implements OnChartValueSelectedListener {
         set.setHighLightColor(Color.rgb(244, 117, 117));
         set.setValueTextColor(Color.WHITE);
         set.setValueTextSize(9f);
-        set.setDrawValues(false);
+        set.setDrawValues(true);
         return set;
     }
     public void onCreate() {
@@ -104,24 +106,27 @@ public class SampleChart implements OnChartValueSelectedListener {
         //l.setTypeface(tf);
         l.setTextColor(Color.WHITE);
 
-        XAxis xl = mChart.getXAxis();
+        XAxis xAxis = mChart.getXAxis();
         //xl.setTypeface(tf);
-        xl.setTextColor(Color.WHITE);
-        xl.setDrawGridLines(false);
-        xl.setAvoidFirstLastClipping(true);
-        xl.setSpaceBetweenLabels(5);
-        xl.setEnabled(true);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setDrawGridLines(false);
+        xAxis.setAvoidFirstLastClipping(true);
+        xAxis.setSpaceBetweenLabels(5);
+        xAxis.setEnabled(true);
 
-        YAxis leftAxis = mChart.getAxisLeft();
-        //leftAxis.setTypeface(tf);
-        leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setAxisMaxValue(220f);
-        leftAxis.setAxisMinValue(-220f);
-        leftAxis.setStartAtZero(false);
-        leftAxis.setDrawGridLines(true);
+        YAxis yAxis = mChart.getAxisLeft();
+        //yAxis.setTypeface(tf);
+        yAxis.setTextColor(Color.WHITE);
+        yAxis.setAxisMaxValue(220f);
+        yAxis.setAxisMinValue(-220f);
+        yAxis.setStartAtZero(false);
+        yAxis.setDrawGridLines(true);
 
         YAxis rightAxis = mChart.getAxisRight();
-        rightAxis.setEnabled(false);    }
+        rightAxis.setEnabled(false);
+
+        mChart.setBackgroundColor(Color.parseColor("#FD2631"));
+    }
 
     @Override
     public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
@@ -153,16 +158,16 @@ public class SampleChart implements OnChartValueSelectedListener {
     public void indicateSeverity(byte concussionSeverity) {
         switch(concussionSeverity) {
             case 1:
-                mChart.setBackgroundColor(Color.parseColor("#FFFF33"));
+                mChart.setBackgroundColor(Color.parseColor(HistoryItemRecyclerViewAdapter.HEADGEAR_YELLOW));
                 break;
             case 2:
-                mChart.setBackgroundColor(Color.parseColor("#FF6633")); //Orange
+                mChart.setBackgroundColor(Color.parseColor(HistoryItemRecyclerViewAdapter.HEADGEAR_ORANGE));
                 break;
             case 3:
-                mChart.setBackgroundColor(Color.parseColor("#FF0000"));
+                mChart.setBackgroundColor(Color.parseColor(HistoryItemRecyclerViewAdapter.HEADGEAR_RED));
                 break;
             case 4:
-                mChart.setBackgroundColor(Color.parseColor("#9900CC"));
+                mChart.setBackgroundColor(Color.parseColor(HistoryItemRecyclerViewAdapter.HEADGEAR_PURPLE));
                 break;
             default:
                 mChart.setBackgroundColor(Color.LTGRAY);
@@ -196,5 +201,18 @@ public class SampleChart implements OnChartValueSelectedListener {
 
     public boolean isRecording() {
         return isRecording;
+    }
+
+    public void setMarkerView(CustomMarkerView mv) {
+        mChart.setMarkerView(mv);
+    }
+
+    public void setBackgroundColor(String s) {
+        mChart.setBackgroundColor(Color.parseColor(s));
+    }
+
+    public void setGridColor(String headgearGray) {
+        mChart.setGridBackgroundColor(Color.parseColor(headgearGray));
+        mChart.setDrawGridBackground(true);
     }
 }

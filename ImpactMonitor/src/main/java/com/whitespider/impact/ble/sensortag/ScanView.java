@@ -189,7 +189,7 @@ public class ScanView extends Fragment {
     } else {
       // Indicate that scanning has stopped
       mStatus.setTextAppearance(mContext, R.style.statusStyle_Success);
-      mBtnScan.setText("Scan");
+      mBtnScan.setText("SCAN FOR A DEVICE");
       mBtnScan.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_refresh, 0);
       mEmptyMsg.setText(R.string.scan_advice);
       mActivity.setProgressBarIndeterminateVisibility(false);

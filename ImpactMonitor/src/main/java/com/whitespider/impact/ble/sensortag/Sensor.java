@@ -70,7 +70,7 @@ public enum Sensor {
 	MOVEMENT_ACC(UUID_MOV_SERV,UUID_MOV_DATA, UUID_MOV_CONF,(byte)3) {
 		@Override
 		public Point3D convert(final byte[] value) {
-			return convert8g(value);
+			return convert200g(value);
 		}
 
 		@NonNull
