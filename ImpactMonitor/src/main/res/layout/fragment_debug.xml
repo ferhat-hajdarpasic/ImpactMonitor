@@ -11,42 +11,84 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left|top"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:background="@drawable/configure">
 
-        <ImageView
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_weight="0.47"
-            android:layout_marginBottom="20px"
-            android:src="@drawable/nature1" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textViewFiller"
+            android:layout_weight="0.68" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/nameLabelTextView"
+            android:layout_weight="0.04"
+            android:text="Name"
+            android:textColor="#646464"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/playerNameTextView"
+            android:text="brainGEAR Edwin"
+            android:textColor="#fdfdfe"
+            android:layout_weight="0.05"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:id="@+id/dicTextView"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/div" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/deviceNumberTextView"
+            android:layout_weight="0.13"
+            android:text="SAMHDGR1932830P84"
+            android:textColor="#646464"
+            android:layout_marginLeft="10dp" />
 
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GREEN LED"
             android:id="@+id/greenLed"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center_horizontal|bottom"
             android:checked="false"
-            android:layout_marginBottom="10px" />
+            android:layout_marginBottom="10px"
+            android:layout_weight="0.04"
+            android:background="@drawable/green_led" />
 
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RED LED"
             android:id="@+id/redLed"
             android:layout_gravity="center_horizontal"
             android:checked="false"
-            android:layout_marginBottom="10px" />
+            android:layout_marginBottom="10px"
+            android:layout_weight="0.04"
+            android:background="@drawable/red_led" />
 
         <Switch
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="BUZZER"
+            android:layout_height="wrap_content"
             android:id="@+id/buzzer"
             android:layout_gravity="center_horizontal"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_weight="0.04"
+            android:background="@drawable/buzzer" />
+
     </LinearLayout>
 
 </FrameLayout>

@@ -253,9 +253,4 @@ public class DeviceInformationServiceProfile extends GenericBluetoothProfile {
 		else iconPrefix = ""; 
 		return iconPrefix;
 	}
-	@Override 
-	public TableRow getTableRow() {
-		return this.tRow;
-	}
-	
 }

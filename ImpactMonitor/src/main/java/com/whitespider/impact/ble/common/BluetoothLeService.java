@@ -851,17 +851,13 @@ public class BluetoothLeService extends Service {
             if (clientConfig != null) {
 
                 if (request.notifyenable) {
-                    // Log.i(TAG, "Enable notification: " +
-                    // characteristic.getUuid().toString());
-                    clientConfig
-                            .setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                    Log.i(TAG, "Enable notification: " + request.characteristic.getUuid().toString());
+                    clientConfig.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 } else {
-                    // Log.i(TAG, "Disable notification: " +
-                    // characteristic.getUuid().toString());
-                    clientConfig
-                            .setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                    Log.i(TAG, "Disable notification: " + request.characteristic.getUuid().toString());
+                    clientConfig.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                 }
-                mBluetoothGatt.writeDescriptor(clientConfig);
+                boolean successInit = mBluetoothGatt.writeDescriptor(clientConfig);
                 // Log.i(TAG, "writeDescriptor: " +
                 // characteristic.getUuid().toString());
                 this.setBlocking(true); // Set read to be blocking
@@ -869,7 +865,10 @@ public class BluetoothLeService extends Service {
                     timeout ++;
                     waitIdle(1);
                     if (timeout > GATT_TIMEOUT) {
-                        this.setBlocking(false); request.status = bleRequestStatus.timeout; return -1;}  //Read failed TODO: Fix this to follow connection interval !
+                        this.setBlocking(false);
+                        request.status = bleRequestStatus.timeout;
+                        return -1;
+                    }  //Read failed TODO: Fix this to follow connection interval !
                 }
                 request.status = bleRequestStatus.done;
                 return lastGattStatus;

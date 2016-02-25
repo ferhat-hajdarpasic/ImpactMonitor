@@ -84,8 +84,7 @@ public class TIOADProfile extends GenericBluetoothProfile {
 	
 	public TIOADProfile(Context con,BluetoothDevice device,BluetoothGattService service,BluetoothLeService controller) {
 		super(con,device,service,controller);
-		this.tRow =  new TIOADProfileTableRow(con);
-		
+
 		List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();
 		
 		for (BluetoothGattCharacteristic c : characteristics) {
@@ -96,9 +95,6 @@ public class TIOADProfile extends GenericBluetoothProfile {
 				this.configC = c;
 			}
 		}
-		tRow.title.setText("TI OAD Service");
-		tRow.sl1.setVisibility(View.INVISIBLE);
-		this.tRow.setIcon(this.getIconPrefix(), service.getUuid().toString());
 
         brRecv = new BroadcastReceiver() {
             @Override
@@ -113,32 +109,6 @@ public class TIOADProfile extends GenericBluetoothProfile {
         this.clickReceiverRegistered = true;
 	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!this.clickReceiverRegistered) {
-            brRecv = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    if (TIOADProfileTableRow.ACTION_VIEW_CLICKED.equals(intent.getAction())) {
-                        Log.d("TIOADProfile", "SHOW OAD DIALOG !");
-                        prepareForOAD();
-                    }
-                }
-            };
-
-            this.context.registerReceiver(brRecv, makeIntentFilter());
-            this.clickReceiverRegistered = true;
-        }
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (this.clickReceiverRegistered) {
-            this.context.unregisterReceiver(brRecv);
-            this.clickReceiverRegistered = false;
-        }
-    }
     public static boolean isCorrectService(BluetoothGattService service) {
 		if ((service.getUuid().toString().compareTo(oadService_UUID)) == 0) {
 			return true;
@@ -169,14 +139,9 @@ public class TIOADProfile extends GenericBluetoothProfile {
 	public void deConfigureService() {
 		
 	}
-    @Override
-    public void updateSamplingPeriod(int period) {
-
-    }
 	@Override
 	public void didUpdateFirmwareRevision(String firmwareRev) {
 		this.fwRev = firmwareRev;
-		this.tRow.value.setText("Current FW :" + firmwareRev); 
 	}
 
     private static IntentFilter makeIntentFilter() {

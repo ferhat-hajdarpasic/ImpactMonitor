@@ -78,8 +78,7 @@ public class SensorTagAccelerometerProfile extends GenericBluetoothProfile imple
     public SensorTagAccelerometerProfile(Context con, BluetoothDevice device, BluetoothGattService service, BluetoothLeService controller, int samplingPeriod) {
 		super(con,device,service,controller);
         this.samplingPeriod = samplingPeriod;
-		this.tRow =  new GenericCharacteristicTableRow(con);
-		
+
 		List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();
 		for (BluetoothGattCharacteristic c : characteristics) {
 
@@ -93,28 +92,6 @@ public class SensorTagAccelerometerProfile extends GenericBluetoothProfile imple
 				this.periodC = c;
 			}
 		}
-		
-		this.tRow.sl1.autoScale = true;
-		this.tRow.sl1.autoScaleBounceBack = true;
-		
-		this.tRow.sl2.autoScale = true;
-		this.tRow.sl2.autoScaleBounceBack = true;
-		this.tRow.sl2.setColor(255, 0, 150, 125);
-		this.tRow.sl2.setVisibility(View.VISIBLE);
-        this.tRow.sl2.setEnabled(true);
-		
-		this.tRow.sl3.autoScale = true;
-		this.tRow.sl3.autoScaleBounceBack = true;
-		this.tRow.sl3.setColor(255, 0, 0, 0);
-		this.tRow.sl3.setVisibility(View.VISIBLE);
-        this.tRow.sl3.setEnabled(true);
-		
-		this.tRow.setIcon(this.getIconPrefix(), this.dataC.getUuid().toString());
-		
-		this.tRow.title.setText(GattInfo.uuidToName(UUID.fromString(this.dataC.getUuid().toString())));
-		this.tRow.uuidLabel.setText(this.dataC.getUuid().toString());
-		this.tRow.value.setText("X:0.00G, Y:0.00G, Z:0.00G");
-		
 	}
 	
 	public static boolean isCorrectService(BluetoothGattService service) {
@@ -129,10 +106,6 @@ public class SensorTagAccelerometerProfile extends GenericBluetoothProfile imple
 	public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {
 			if (c.equals(this.dataC)){
 				Point3D v = Sensor.ACCELEROMETER.convert(this.dataC.getValue());
-				if (this.tRow.config == false) this.tRow.value.setText(String.format("X:%.2fG, Y:%.2fG, Z:%.2fG", v.x,v.y,v.z));
-				this.tRow.sl1.addValue((float)v.x);
-				this.tRow.sl2.addValue((float)v.y);
-				this.tRow.sl3.addValue((float)v.z);
 			}
 	}
     @Override

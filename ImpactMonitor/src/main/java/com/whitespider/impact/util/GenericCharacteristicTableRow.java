@@ -205,7 +205,6 @@ public class GenericCharacteristicTableRow extends TableRow implements View.OnCl
 			{
 			setVisibility(View.INVISIBLE);
 			setId(100);
-			setChecked(true);
 			}
 		};
 		this.periodBar = new SeekBar(con) {

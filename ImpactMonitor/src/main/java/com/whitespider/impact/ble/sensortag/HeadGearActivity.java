@@ -88,12 +88,7 @@ public class HeadGearActivity extends DeviceActivity {
     }
 
     public void enableService(final GenericBluetoothProfile p) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                p.enableService();
-            }
-        });
+        p.enableService();
     }
 
     public void createStreamingChart(View rootView) {

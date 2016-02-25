@@ -17,7 +17,7 @@ public class ConcussionEventFragment extends Fragment {
 
         final HeadGearActivity mDeviceActivity = (HeadGearActivity)getActivity();
         mDeviceActivity.createConcussionChart(rootView);
-        mDeviceActivity.onViewInflated(rootView);
+        //mDeviceActivity.onViewInflated(rootView);
 
         return rootView;
     }

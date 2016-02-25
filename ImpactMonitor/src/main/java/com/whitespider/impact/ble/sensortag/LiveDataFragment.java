@@ -17,7 +17,7 @@ public class LiveDataFragment extends Fragment {
 
         final HeadGearActivity mDeviceActivity = (HeadGearActivity)getActivity();
         mDeviceActivity.createStreamingChart(rootView);
-        mDeviceActivity.onViewInflated(rootView);
+        //mDeviceActivity.onViewInflated(rootView);
 
         return rootView;
     }

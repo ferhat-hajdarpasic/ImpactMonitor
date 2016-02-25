@@ -29,13 +29,11 @@ import android.widget.Toast;
 
 
 import com.whitespider.impact.ble.btsig.profiles.DeviceInformationServiceProfile;
-import com.whitespider.impact.ble.common.AzureIoTCloudProfile;
 import com.whitespider.impact.ble.common.BluetoothLeService;
 import com.whitespider.impact.ble.common.GattInfo;
 import com.whitespider.impact.ble.common.GenericBluetoothProfile;
 import com.whitespider.impact.ble.ti.profiles.TIOADProfile;
 import com.whitespider.impact.history.HistoryItem;
-import com.whitespider.impact.util.Point3D;
 
 
 @SuppressLint("InflateParams")
@@ -54,21 +52,18 @@ public class DeviceActivity extends ViewPagerActivity {
 	BluetoothLeService mBtLeService = null;
 	BluetoothDevice mBluetoothDevice = null;
 	BluetoothGatt mBtGatt = null;
-	private List<BluetoothGattService> mServiceList = null;
 	boolean mServicesRdy = false;
 	private boolean mIsReceiving = false;
-    AzureIoTCloudProfile mqttProfile;
 
 	// SensorTagGatt
 	BluetoothGattService mOadService = null;
 	BluetoothGattService mConnControlService = null;
+	DeviceActivityBroadcastReceiver mGattUpdateReceiver = null;
 	private boolean mIsSensorTag2;
 	public ProgressDialog progressDialog;
 
 	//GUI
 	List<GenericBluetoothProfile> mProfiles;
-	private DeviceActivityBroadcastReceiver mGattUpdateReceiver;
-	public SensorTagIoProfile mSensorTagIoProfile;
 	private SensorTagIoProfile sensorTagIoProfile;
 	private HistoryItem feedItem;
 
@@ -83,9 +78,6 @@ public class DeviceActivity extends ViewPagerActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		int samplingPeriod = getSamplingPeriod(this);
-		mGattUpdateReceiver = new DeviceActivityBroadcastReceiver(this, mServiceList, samplingPeriod);
-
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
@@ -93,7 +85,6 @@ public class DeviceActivity extends ViewPagerActivity {
 		// BLE
 		mBtLeService = BluetoothLeService.getInstance();
 		mBluetoothDevice = intent.getParcelableExtra(EXTRA_DEVICE);
-		mServiceList = new ArrayList<BluetoothGattService>();
 
 		mIsSensorTag2 = false;
 		// Determine type of SensorTagGatt
@@ -113,26 +104,24 @@ public class DeviceActivity extends ViewPagerActivity {
 		//hw.setParameters("help_device.html", R.layout.fragment_help, R.id.webpage);
 		//mSectionsPagerAdapter.addSection(hw, "Help");
 		mProfiles = new ArrayList<GenericBluetoothProfile>();
-		progressDialog = new ProgressDialog(DeviceActivity.this);
-		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		progressDialog.setIndeterminate(true);
-		progressDialog.setTitle("Discovering Services");
-        progressDialog.setMessage("");
-		progressDialog.setMax(100);
-        progressDialog.setProgress(0);
+		progressDialog = createProgressDialog("Discovering Services", "");
         progressDialog.show();
 
         // GATT database
 		Resources res = getResources();
 		XmlResourceParser xpp = res.getXml(R.xml.gatt_uuid);
 		new GattInfo(xpp);
-
 	}
 
-	public static int getSamplingPeriod(Activity activity) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-		final int sampling_frequency = R.string.sampling_frequency;
-		return (int)getNumber(activity, prefs, sampling_frequency, 1000);
+	public ProgressDialog createProgressDialog(String title, String message) {
+		ProgressDialog result = new ProgressDialog(DeviceActivity.this);
+		result.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		result.setIndeterminate(true);
+		result.setTitle(title);
+		result.setMessage(message);
+		result.setMax(100);
+		result.setProgress(0);
+		return result;
 	}
 
 	public static float getNumber(Activity activity, SharedPreferences prefs,
@@ -144,17 +133,6 @@ public class DeviceActivity extends ViewPagerActivity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-        if (mqttProfile != null) {
-            mqttProfile.disconnect();
-
-        }
-        if (mIsReceiving) {
-            unregisterReceiver(mGattUpdateReceiver);
-            mIsReceiving = false;
-        }
-        for (GenericBluetoothProfile p : mProfiles) {
-            p.onPause();
-        }
         if (!this.isEnabledByPrefs("keepAlive")) {
             this.mBtLeService.timedDisconnect();
         }
@@ -215,23 +193,22 @@ public class DeviceActivity extends ViewPagerActivity {
 	}
 	@Override
 	protected void onResume() {
-		// Log.d(TAG, "onResume");
 		super.onResume();
-		if (!mIsReceiving) {
+		mBtGatt = BluetoothLeService.getBtGatt();
+		if(mGattUpdateReceiver != null) {
+			unregisterReceiver(mGattUpdateReceiver);
+			mGattUpdateReceiver = null;
+		}
+		if(mGattUpdateReceiver == null) {
+			mGattUpdateReceiver = new DeviceActivityBroadcastReceiver(this);
 			registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-			mIsReceiving = true;
 		}
-		for (GenericBluetoothProfile p : mProfiles) {
-            if (p.isConfigured != true) p.configureService();
-            if (p.isEnabled != true) p.enableService();
-			p.onResume();
-		}
-		this.mBtLeService.abortTimedDisconnect();
+		mBtGatt.discoverServices();
+//		this.mBtLeService.abortTimedDisconnect();
 	}
 
 	@Override
 	protected void onPause() {
-		// Log.d(TAG, "onPause");
 		super.onPause();
 	}
 	public static IntentFilter makeGattUpdateIntentFilter() {
@@ -245,32 +222,10 @@ public class DeviceActivity extends ViewPagerActivity {
 		return fi;
 	}
 
-	void onViewInflated(View view) {
-		// Log.d(TAG, "Gatt view ready");
-		//setBusy(true);
-
-		// Set title bar to device name
-		//setTitle(mBluetoothDevice.getName());
-		setTitle("Impact Monitor");
-
-		// Create GATT object
-		mBtGatt = BluetoothLeService.getBtGatt();
-		// Start service discovery
-		if (!mServicesRdy && mBtGatt != null) {
-			if (mBtLeService.getNumServices() == 0)
-				discoverServices();
-			else {
-			}
-		}
-	}
-
 	boolean isSensorTag2() {
 		return mIsSensorTag2;
 	}
 
-	String firmwareRevision() {
-		return mGattUpdateReceiver.mFwRev;
-	}
 	BluetoothGattService getOadService() {
 		return mOadService;
 	}
@@ -287,16 +242,6 @@ public class DeviceActivity extends ViewPagerActivity {
 		i.putExtra(PreferencesActivity.EXTRA_NO_HEADERS, true);
 		i.putExtra(EXTRA_DEVICE, bluetoothDevice);
 		activity.startActivityForResult(i, PREF_ACT_REQ);
-	}
-
-	void discoverServices() {
-		if (mBtGatt.discoverServices()) {
-			mServiceList.clear();
-			setBusy(true);
-
-		} else {
-
-		}
 	}
 
 	protected void setBusy(boolean b) {
@@ -322,9 +267,6 @@ public class DeviceActivity extends ViewPagerActivity {
 	}
 	protected void observeAcceleration(MotionSensor p) {
 		final Motion reading = p.getReading();
-		if (this.mqttProfile != null) {
-			this.mqttProfile.addSensorReading(reading);
-		}
 
 		final double totalAcceleration = ConcussionDetector.getTotalAcceleration(reading);
 		Log.d("#", "Total acceleration=" + totalAcceleration);
@@ -349,7 +291,6 @@ public class DeviceActivity extends ViewPagerActivity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				mDeviceView.addRowToTable(p.getTableRow());
 				p.enableService();
 				progressDialog.setProgress(progressDialog.getProgress() + 1);
 			}
