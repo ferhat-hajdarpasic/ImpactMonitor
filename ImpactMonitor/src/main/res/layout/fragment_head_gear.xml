@@ -25,19 +25,19 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         android:layout_above="@+id/xyzAcceleration"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="30dp">
+            android:layout_height="40dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="fill_parent"
                 android:id="@+id/scheduleImageView"
                 android:src="@drawable/ic_schedule_black_18dp"
                 android:background="@android:color/black"
@@ -54,7 +54,7 @@
 
             <ImageView
                 android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_height="fill_parent"
                 android:id="@+id/errorImageView"
                 android:src="@drawable/ic_error_black_18dp"
                 android:scaleType="centerInside" />
@@ -73,7 +73,7 @@
 
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/concussionMagnitudeTextView"
             android:textSize="60dp"

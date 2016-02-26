@@ -7,11 +7,13 @@
     android:baselineAligned="false"
     android:background="#212121">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginBottom="1sp">
 
         <ImageButton
             android:layout_width="50dp"
@@ -19,15 +21,18 @@
             android:id="@+id/historyLevelImageButton"
             android:src="@drawable/diamond"
             android:foreground="#c01a1a"
-            android:background="@drawable/circle" />
+            android:background="@drawable/circle"
+            android:layout_alignParentLeft="true" />
 
         <TextView
-            android:layout_width="245dp"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/historyDetailsTextView"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/historyLevelImageButton"
+            android:gravity="center" />
 
         <ImageButton
             android:layout_width="50dp"
@@ -35,8 +40,9 @@
             android:id="@+id/imageButton2"
             android:src="@drawable/rotation_3d"
             android:background="@android:color/transparent"
-            android:layout_gravity="center" />
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
 
     <TextView
         android:layout_width="fill_parent"

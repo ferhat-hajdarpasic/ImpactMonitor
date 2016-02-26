@@ -62,27 +62,26 @@
 
         <Switch
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:id="@+id/greenLed"
             android:layout_gravity="center_horizontal|bottom"
             android:checked="false"
-            android:layout_marginBottom="10px"
             android:layout_weight="0.04"
-            android:background="@drawable/green_led" />
+            android:background="@drawable/green_led"
+            android:singleLine="false" />
 
         <Switch
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:id="@+id/redLed"
             android:layout_gravity="center_horizontal"
             android:checked="false"
-            android:layout_marginBottom="10px"
             android:layout_weight="0.04"
             android:background="@drawable/red_led" />
 
         <Switch
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:id="@+id/buzzer"
             android:layout_gravity="center_horizontal"
             android:checked="false"
