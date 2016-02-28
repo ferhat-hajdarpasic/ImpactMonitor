@@ -4,11 +4,11 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle.Transparent</item>
+        <item name="android:actionBarTabStyle">@style/MyTheme.ActionBar.TabView</item>
     </style>
 
-    <style name="LightTabWidget" parent="@android:style/Widget.TabWidget">
-        <item name="android:tabStripEnabled">false</item>
-        <item name="android:tabWidgetStyle">@style/statusStyle.Disabled</item>
+    <style name="MyTheme.ActionBar.TabView" parent="android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_bar_background</item>
     </style>
 
     <style name="ActionBarStyle.Transparent" parent="android:Widget.ActionBar">

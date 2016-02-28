@@ -3,11 +3,20 @@
     xmlns:example="http://schemas.android.com/apk/res/com.ti.sensortag" >
     
     <PreferenceCategory android:title="Device" >
-        
-        <!-- 
-	        Checkboxes have keys that match (with a simple transformation) the enum names in Sensor.java for easy
-	        decoding/encoding between java code and xml. 
-        -->
+        <EditTextPreference
+            android:key="@string/headgear_device_name"
+            android:summary="The name of person wearing the device"
+            android:defaultValue="Edwin"
+            android:persistent="true"
+            android:inputType="text"
+            android:title="Name" />
+        <EditTextPreference
+            android:key="@string/smsAlertPhoneNumber"
+            android:summary="Send SMS notifications to this phone number"
+            android:defaultValue=""
+            android:persistent="true"
+            android:inputType="phone"
+            android:title="Phone Number" />
         <EditTextPreference
             android:key="@string/sampling_frequency"
             android:summary="Motion sensor sampling frequency [milliseconds]."
