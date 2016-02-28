@@ -34,9 +34,8 @@ public class ConcussionLedInidicator {
                         @Override
                         public void run() {
                             currentImpactLevel = 0;
-                            Toast.makeText(headGearActivity.getApplicationContext(), "Concussion severity=" + impactLevel, Toast.LENGTH_SHORT).show();
                             if (mSensorTagIoProfile != null) {
-                                mSensorTagIoProfile.LED((byte) currentImpactLevel);
+                                mSensorTagIoProfile.LED(currentImpactLevel);
                             }
                         }
                     });

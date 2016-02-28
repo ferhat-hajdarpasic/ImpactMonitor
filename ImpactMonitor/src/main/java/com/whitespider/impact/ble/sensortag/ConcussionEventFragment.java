@@ -12,13 +12,8 @@ public class ConcussionEventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_head_gear, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText(getString(R.string.concussion_fragment));
-
         final HeadGearActivity mDeviceActivity = (HeadGearActivity)getActivity();
         mDeviceActivity.createConcussionChart(rootView);
-        //mDeviceActivity.onViewInflated(rootView);
-
         return rootView;
     }
 }

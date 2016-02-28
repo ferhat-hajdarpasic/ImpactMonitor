@@ -8,13 +8,13 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.whitespider.impact.ble.common.GenericBluetoothProfile;
 import com.whitespider.impact.history.CsvFileWriter;
 import com.whitespider.impact.history.HistoryItemRecyclerViewAdapter;
+import com.whitespider.impact.util.BrainGearSmsSender;
 import com.whitespider.impact.util.CustomMarkerView;
 
 import java.text.SimpleDateFormat;
@@ -34,6 +34,7 @@ public class HeadGearActivity extends DeviceActivity {
     private TextView concussionMagnitudeTextView;
 
     int counterForLiveChart;
+    private BrainGearSmsSender mSmsSender;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class HeadGearActivity extends DeviceActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         concussionDetector = new ConcussionDetector(this, prefs);
-
+        mSmsSender = new BrainGearSmsSender(this, prefs);
     }
 
     @Override
@@ -81,13 +82,16 @@ public class HeadGearActivity extends DeviceActivity {
                 concussionChart.startRecording(concussionDetector.getSamples());
                 concussionChart.indicateSeverity(concussionSeverity);
                 concussionLedInidicator.headGearLED(concussionSeverity);
-                concussionTimeTextView.setText(new SimpleDateFormat("hh:mm").format(new Date()));
+                final String concussionEventTime = new SimpleDateFormat("hh:mm").format(new Date());
+                concussionTimeTextView.setText(concussionEventTime);
 
                 final Double totalAcceleration = ConcussionDetector.getTotalAcceleration(p.getReading());
 
-                final String textG = String.format("%.2f G", totalAcceleration);
-                concussionMagnitudeTextView.setText(textG);
+                final String concussionEventSeverity = String.format("%.2f G", totalAcceleration);
+                concussionMagnitudeTextView.setText(concussionEventSeverity);
                 csvFileWriter.addConcussionEvent(p, concussionSeverity);
+
+                mSmsSender.sendSms(concussionEventSeverity, concussionEventTime);
             }
         }
         if(concussionChart != null) {
@@ -95,6 +99,12 @@ public class HeadGearActivity extends DeviceActivity {
                 concussionChart.observeAcceleration(p);
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSmsSender.onDestroy();
     }
 
     protected void setBusy(boolean b) {
