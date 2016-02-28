@@ -55,7 +55,7 @@ public class HistoryItemRecyclerViewAdapter extends RecyclerView.Adapter<History
                 "<b>" + String.format("%.2f", feedItem.getTotalAcceleration()) + " G</b>" +
                 " <p>Recorded on " + feedItem.getTime() + "</p>";
         feedListRowHolder.historyDetailsTextView.setText(Html.fromHtml(html));
-        feedListRowHolder.historyDetailsTextView.setTag(feedItem);
+        feedListRowHolder.imageButtonView3D.setTag(feedItem);
 
         if(feedItem.getSeverity() >= 3) {
             feedListRowHolder.historyDetailsTextView.setTextColor(color);

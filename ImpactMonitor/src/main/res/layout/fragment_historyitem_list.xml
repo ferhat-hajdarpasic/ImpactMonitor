@@ -11,4 +11,4 @@
     app:layoutManager="LinearLayoutManager"
     tools:context="com.whitespider.impact.history.HistoryItemFragment"
     tools:listitem="@layout/fragment_historyitem"
-    android:onClick="onItemClicked" />
+    android:outlineProvider="bounds" />

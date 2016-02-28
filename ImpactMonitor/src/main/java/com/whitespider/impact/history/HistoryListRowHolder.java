@@ -11,11 +11,13 @@ import com.whitespider.impact.ble.sensortag.R;
 public class HistoryListRowHolder extends RecyclerView.ViewHolder {
     protected ImageButton historyLevelImageButton;
     protected TextView historyDetailsTextView;
+    protected ImageButton imageButtonView3D;
 
     public HistoryListRowHolder(View view) {
         super(view);
         this.historyLevelImageButton = (ImageButton) view.findViewById(R.id.historyLevelImageButton);
         this.historyDetailsTextView = (TextView) view.findViewById(R.id.historyDetailsTextView);
+        this.imageButtonView3D = (ImageButton)view.findViewById(R.id.imageButtonView3D);
     }
 
 }
