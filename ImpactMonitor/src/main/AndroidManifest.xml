@@ -40,7 +40,7 @@
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name"
-            android:screenOrientation="unspecified">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,28 +52,29 @@
             android:name=".DeviceActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="unspecified" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FwUpdateActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:parentActivityName=".DeviceActivity"
-            android:screenOrientation="unspecified" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FileActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:parentActivityName=".FwUpdateActivity"
-            android:screenOrientation="unspecified" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PreferencesActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Preferences"
             android:parentActivityName=".DeviceActivity"
             android:theme="@style/PreferenceScreen"
-            android:screenOrientation="unspecified" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HeadGearActivity"
             android:label="@string/title_activity_head_gear"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.whitespider.impact.ble.sensortag.MainActivity" />

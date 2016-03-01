@@ -3,11 +3,13 @@ package com.whitespider.impact.ble.sensortag;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 public class DebugFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
@@ -24,6 +26,11 @@ public class DebugFragment extends Fragment implements CompoundButton.OnCheckedC
         Switch redSwitch = (Switch) view.findViewById(R.id.redLed);
         Switch greenSwitch = (Switch) view.findViewById(R.id.greenLed);
         Switch buzzerSwitch = (Switch) view.findViewById(R.id.buzzer);
+
+        TextView name = (TextView)view.findViewById(R.id.playerNameTextView);
+        String deviceNameKey = headGearActivity.getResources().getString(R.string.headgear_device_name);
+        String deviceName = PreferenceManager.getDefaultSharedPreferences(headGearActivity).getString(deviceNameKey, "Edwin");
+        name.setText(deviceName);
 
         redSwitch.setOnCheckedChangeListener(this);
         greenSwitch.setOnCheckedChangeListener(this);

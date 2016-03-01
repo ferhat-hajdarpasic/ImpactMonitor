@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="100dp"
     android:orientation="horizontal"
     android:paddingBottom="5dp"
     android:background="#646464"
@@ -22,13 +22,12 @@
     <TextView
         android:id="@+id/descr"
         android:layout_width="fill_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
         android:layout_weight="4"
         android:focusable="false"
         android:gravity="center|left"
         android:layout_marginRight="10dp"
-        android:background="@android:color/transparent"
         android:text="Impact Sensor Seoide sdnisodn sdcnsdo sdcnsodnu sdncsdcd a nosd asd" />
 
 </LinearLayout>

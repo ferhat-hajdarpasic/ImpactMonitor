@@ -1,12 +1,9 @@
 package com.whitespider.impact.history;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -14,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
 import com.whitespider.impact.ble.sensortag.R;
 
 import java.util.List;
@@ -51,18 +47,18 @@ public class HistoryItemRecyclerViewAdapter extends RecyclerView.Adapter<History
         int color = getItemColor(feedItem);
 
         //feedListRowHolder.historyLevelImageButton.setImageBitmap(image);
-        final String html =
-                "<b>" + String.format("%.2f", feedItem.getTotalAcceleration()) + " G</b>" +
-                " <p>Recorded on " + feedItem.getTime() + "</p>";
-        feedListRowHolder.historyDetailsTextView.setText(Html.fromHtml(html));
+        final String intensity = String.format("%.2f", feedItem.getTotalAcceleration()) + " G";
+        final String timeOfRecording ="Recorded at " + feedItem.getTime();
+        feedListRowHolder.historyItemIntensityTextView.setText(intensity);
+        feedListRowHolder.historyItemTimeTextView.setText(timeOfRecording);
         feedListRowHolder.imageButtonView3D.setTag(feedItem);
 
         if(feedItem.getSeverity() >= 3) {
-            feedListRowHolder.historyDetailsTextView.setTextColor(color);
+            feedListRowHolder.historyItemIntensityTextView.setTextColor(color);
             Bitmap errorImage = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.error);
             feedListRowHolder.historyLevelImageButton.setImageBitmap(errorImage);
         } else {
-            feedListRowHolder.historyDetailsTextView.setTextColor(Color.parseColor(HEADGEAR_GRAY));
+            feedListRowHolder.historyItemIntensityTextView.setTextColor(Color.parseColor(HEADGEAR_GRAY));
         }
     }
 

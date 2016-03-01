@@ -170,17 +170,14 @@ public class GenericBluetoothProfile {
 		return prefs.getBoolean(preferenceKeyString, defaultValue);
 	}
 	public void periodWasUpdated(int period) {
-		if (period > 2450) period = 2450;
-		if (period < 100) period = 100;
+		if (period > 2450) {
+			period = 2450;
+		}
+		if (period < 10) {
+			period = 10;
+		}
 		byte p = (byte)((period / 10) + 10);
 		Log.d("GenericBluetoothProfile","Period characteristic set to :" + period);
-        /*
-		if (this.mBTLeService.writeCharacteristic(this.periodC, p)) {
-			mBTLeService.waitIdle(GATT_TIMEOUT);
-		} else {
-			Log.d("GenericBluetoothProfile","Sensor period failed: " + this.periodC.getUuid().toString());
-		}
-		*/
 		int error = mBTLeService.writeCharacteristic(this.periodC, p);
 		if (error != 0) {
 			if (this.periodC != null)

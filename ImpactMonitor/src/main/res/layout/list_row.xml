@@ -1,38 +1,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="90dp"
+    android:layout_width="wrap_content"
     android:orientation="vertical"
-    android:padding="2dp"
-    android:weightSum="1"
-    android:baselineAligned="false"
-    android:background="#212121">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
-    <RelativeLayout
+    <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:nestedScrollingEnabled="false"
-        android:layout_marginBottom="1sp">
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent"
+        android:layout_gravity="top"
+        android:weightSum="1">
 
         <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/historyLevelImageButton"
             android:src="@drawable/diamond"
             android:foreground="#c01a1a"
             android:background="@drawable/circle"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentTop="false"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_alignBaseline="@+id/imageButtonView3D" />
 
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/historyDetailsTextView"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/historyLevelImageButton"
-            android:gravity="center" />
+            android:layout_gravity="center"
+            android:layout_weight="13.62">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="9.92 G"
+                android:id="@+id/historyItemIntensityTextView"
+                android:layout_alignParentTop="false"
+                android:layout_alignEnd="@+id/imageButtonView3D"
+                android:layout_gravity="center"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentRight="false"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Recorded at 10:15"
+                android:id="@+id/historyItemTimeTextView" />
+        </LinearLayout>
 
         <ImageButton
             android:layout_width="50dp"
@@ -41,16 +63,21 @@
             android:src="@drawable/rotation_3d"
             android:background="@android:color/transparent"
             android:layout_gravity="center"
-            android:layout_alignParentRight="true"
-            android:onClick="showHead" />
-    </RelativeLayout>
+            android:onClick="showHead"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+    </LinearLayout>
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text=""
-        android:id="@+id/historyDivTextView3"
+        android:id="@+id/textView10"
+        android:layout_alignEnd="@+id/imageButtonView3D"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:background="@drawable/div" />
 
 </LinearLayout>

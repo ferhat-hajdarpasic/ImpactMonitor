@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list"
     android:name="com.whitespider.impact.ble.sensortag.HistoryItemFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.whitespider.impact.history.HistoryItemFragment"
-    tools:listitem="@layout/fragment_historyitem"
-    android:outlineProvider="bounds" />
+    tools:listitem="@layout/list_row"
+    android:outlineProvider="bounds"
+    android:paddingTop="90dp"
+    android:background="@android:color/transparent" />

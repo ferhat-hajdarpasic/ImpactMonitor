@@ -10,8 +10,8 @@
 
     <TextView
         android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="fill_parent"
+        android:layout_height="50dp" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:layout_width="wrap_content"
@@ -47,10 +47,10 @@
                 android:layout_width="100dp"
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="19:30"
                 android:id="@+id/concussionTimeTextView"
                 android:background="@android:color/black"
-                android:gravity="center" />
+                android:gravity="center"
+                android:singleLine="true" />
 
             <ImageView
                 android:layout_width="30dp"
@@ -79,7 +79,7 @@
             android:textSize="60dp"
             android:textIsSelectable="false"
             android:singleLine="true"
-            android:text="17:38 G"
+            android:text="0:00 G"
             android:background="@android:color/black"
             android:gravity="center"
             android:textStyle="italic" />

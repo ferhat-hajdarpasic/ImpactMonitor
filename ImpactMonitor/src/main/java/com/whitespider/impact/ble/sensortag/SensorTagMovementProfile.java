@@ -118,27 +118,10 @@ public class SensorTagMovementProfile extends GenericBluetoothProfile implements
                 Log.d("MovementProfile","Sensor notification enable failed: " + this.configC.getUuid().toString() + " Error: " + error);
         }
 
-        this.periodWasUpdated(1000);
+        this.periodWasUpdated(this.samplingPeriod);
         this.isEnabled = true;
     }
-	public void enableService_mine() {
-        byte b[] = new byte[] {0x7F,0x02};
-        int error = mBTLeService.writeCharacteristic(this.configC, b);
-        if (error != 0) {
-            if (this.configC != null) {
-                Log.d("MovementProfile", "Sensor config failed: " + this.configC.getUuid().toString() + " Error: " + error);
-            }
-        }
-        error = this.mBTLeService.setCharacteristicNotification(this.dataC, true);
-        if (error != 0) {
-            if (this.dataC != null) {
-                Log.d("MovementProfile", "Sensor notification enable failed: " + this.configC.getUuid().toString() + " Error: " + error);
-            }
-        }
 
-		this.periodWasUpdated(1000);
-        this.isEnabled = true;
-	}
 	@Override
 	public void disableService() {
         int error = mBTLeService.writeCharacteristic(this.configC, new byte[] {0x00,0x00});
