@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Main activity -->
-    <string name="app_name">brainGEAR</string>
+    <string name="app_name">brainBAND</string>
     <string name="button_scan">SCAN FOR A DEVICE</string>
     <string name="connect">Connect</string>
     <string name="title_device_list">Device List</string>

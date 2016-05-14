@@ -59,18 +59,16 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 
+import com.badlogic.gdx.utils.ByteArray;
 import com.whitespider.impact.ble.common.BluetoothLeService;
-import com.whitespider.impact.ble.common.GattInfo;
 import com.whitespider.impact.ble.common.GenericBluetoothProfile;
-import com.whitespider.impact.util.GenericCharacteristicTableRow;
 import com.whitespider.impact.util.Point3D;
 
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class SensorTagIoProfile extends GenericBluetoothProfile {
     public SensorTagIoProfile(Context con, BluetoothDevice device, BluetoothGattService service, BluetoothLeService controller) {
@@ -121,17 +119,40 @@ public class SensorTagIoProfile extends GenericBluetoothProfile {
 
     public void green(boolean on) {
         Log.d("GenericBluetoothProfile", "Green :" + on);
+        //Michael: controlExtra(GREEN_LED, on, "12345678910");
         control(GREEN_LED, on);
     }
 
     public void red(boolean on) {
         Log.d("GenericBluetoothProfile", "Red :" + on);
+        //Michael: controlExtra(RED_LED, on, "abcdefghijklmnopqrst");
         control(RED_LED, on);
     }
 
     public void buzzer(boolean on) {
         Log.d("GenericBluetoothProfile", "Buzzer :" + on);
         control(BUZZER, on);
+    }
+
+    public void controlExtra(byte element, boolean on, String message) {
+        mBTLeService.readCharacteristic(this.dataC);
+        byte[] value = this.dataC.getValue();
+        if(on) {
+            value[0] = (byte)(value[0] | element);
+        } else {
+            value[0] = (byte)(value[0] & ~element);
+        }
+
+        byte[] messageBytes = message.getBytes();
+        byte[] bytes = new byte[10];
+        for(int i = 0; i < value.length; i++) {
+            bytes[i] = value[i];
+        }
+
+        for(int i = value.length; i < 10; i++) {
+            bytes[value.length + i] = messageBytes[i];
+        }
+        writeDataValue(bytes);
     }
 
     public void control(byte element, boolean on) {
@@ -157,7 +178,8 @@ public class SensorTagIoProfile extends GenericBluetoothProfile {
     public void configureService() {
         byte REMOTE_MODE = 1;
         writeControlValue(new byte[]{REMOTE_MODE});
-        writeDataValue(new byte[]{0x00}); //Clear all controls
+        //Michael: writeDataValue(new byte[] {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}); //Clear all controls
+        writeDataValue(new byte[] {0x00}); //Clear all controls
         this.isConfigured = true;
     }
 
