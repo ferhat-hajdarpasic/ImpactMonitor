@@ -1,83 +1,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="90dp"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentStart="true"
-        android:background="@android:color/transparent"
-        android:layout_gravity="top"
-        android:weightSum="1">
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@android:color/transparent"
+            android:layout_gravity="top|center"
+            android:weightSum="1" android:layout_marginLeft="5dp" android:layout_marginRight="5dp">
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/historyLevelImageButton"
-            android:src="@drawable/diamond"
-            android:foreground="#c01a1a"
-            android:background="@drawable/circle"
-            android:layout_alignParentTop="false"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="center"
-            android:layout_alignParentLeft="true"
-            android:layout_alignBaseline="@+id/imageButtonView3D" />
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/historyLevelImageButton"
+                android:src="@drawable/diamond"
+                android:foreground="#c01a1a"
+                android:background="@drawable/circle"
+                android:layout_gravity="center" android:contentDescription="@string/content_description_text"
+        />
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
             android:layout_gravity="center"
-            android:layout_weight="13.62">
+            android:layout_weight="1">
 
             <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="9.92 G"
-                android:id="@+id/historyItemIntensityTextView"
-                android:layout_alignParentTop="false"
-                android:layout_alignEnd="@+id/imageButtonView3D"
-                android:layout_gravity="center"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentRight="false"
-                android:textStyle="bold" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/example_acceleration_value"
+                    android:id="@+id/historyItemIntensityTextView"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"/>
 
             <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Recorded at 10:15"
-                android:id="@+id/historyItemTimeTextView" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/example_recorded_time"
+                    android:id="@+id/historyItemTimeTextView"/>
         </LinearLayout>
 
         <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/imageButtonView3D"
-            android:src="@drawable/rotation_3d"
-            android:background="@android:color/transparent"
-            android:layout_gravity="center"
-            android:onClick="showHead"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/imageButtonView3D"
+                android:src="@drawable/rotation_3d"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"
+                android:onClick="showHead" android:contentDescription="@string/view_3d_button_text"
+        />
 
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textView10"
-        android:layout_alignEnd="@+id/imageButtonView3D"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:background="@drawable/div" />
 
 </LinearLayout>
