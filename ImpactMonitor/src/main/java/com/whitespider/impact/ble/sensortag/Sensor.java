@@ -76,18 +76,18 @@ public enum Sensor {
 		@NonNull
 		public Point3D convert200g(byte[] value) {
 			final float SCALE200G = (float) 0.049;
-			int x = toInt(value[7], value[6])/8;
-			int y = toInt(value[9], value[8])/8;
-			int z = toInt(value[11], value[10])/8;
+			int x = toInt(value[7], value[6]);
+			int y = toInt(value[9], value[8]);
+			int z = toInt(value[11], value[10]);
 
 			Point3D result = new Point3D(SCALE200G * x, SCALE200G * y, SCALE200G * z);
-			Log.d(TAG, String.format("%02X%02X|%02X%02X|%02X%02X, %d, %d, %d, %f, %f, %f",
-					value[7], value[6],
-					value[9], value[8],
-					value[11], value[10],
-					x, y ,z,
-					result.x, result.y, result.z
-					));
+//			Log.d(TAG, String.format("%02X%02X|%02X%02X|%02X%02X, %d, %d, %d, %f, %f, %f",
+//					value[7], value[6],
+//					value[9], value[8],
+//					value[11], value[10],
+//					x, y ,z,
+//					result.x, result.y, result.z
+//					));
 			return result;
 		}
 		public Point3D convert8g(final byte[] value) {
