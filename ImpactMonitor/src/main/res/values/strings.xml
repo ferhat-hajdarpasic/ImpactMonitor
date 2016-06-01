@@ -129,4 +129,13 @@
     <string name="severe_shock_title">Severe Shock - <font color='#A3159F'>Purple</font></string>
     <string name="smsAlertPhoneNumber">sms_alert_phone_number</string>
     <string name="headgear_device_name">headgearDeviceName</string>
+    <string name="example_acceleration_value">9.92 G</string>
+    <string name="example_recorded_time">Recorded at 10:15</string>
+    <string name="view_3d_button_text">view_3d_button</string>
+    <string name="content_description_text">content_description</string>
+    <string name="sample_g_value">0:00 G</string>
+    <string name="content_description">Content description</string>
+    <string name="erroro_image_content_description">error image content description</string>
+    <string name="high_concussion_event_text">HIGH CONCUSSION HIT</string>
+    <string name="sample_concussion_event_time">10:21</string>
 </resources>
