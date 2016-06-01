@@ -14,75 +14,83 @@
         android:layout_height="50dp" />
 
     <com.github.mikephil.charting.charts.LineChart
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/line_chart"
-        android:layout_below="@+id/section_label"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/line_chart"
+            android:layout_below="@+id/section_label"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true" android:textAlignment="viewStart"/>
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="160dp"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
         android:layout_above="@+id/xyzAcceleration"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp">
+        android:layout_centerHorizontal="true">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="40dp">
+            android:layout_height="25dp">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="fill_parent"
-                android:id="@+id/scheduleImageView"
-                android:src="@drawable/ic_schedule_black_18dp"
-                android:background="@android:color/black"
-                android:scaleType="centerInside" />
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="110dp"
+                    android:layout_height="25dp" android:background="@android:color/black">
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:id="@+id/scheduleImageView"
+                        android:src="@drawable/ic_schedule_black_18dp"
+                        android:contentDescription="@string/content_description"
+                        android:padding="5dp" android:scaleType="fitXY"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/concussionTimeTextView"
+                        android:gravity="center"
+                        android:singleLine="true" android:text="@string/sample_concussion_event_time"
+                        android:textColor="#fd1535"/>
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="fill_parent"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/concussionTimeTextView"
-                android:background="@android:color/black"
-                android:gravity="center"
-                android:singleLine="true" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="fill_parent"
-                android:id="@+id/errorImageView"
-                android:src="@drawable/ic_error_black_18dp"
-                android:scaleType="centerInside" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="HIGH CONCUSSION HIT"
-                android:id="@+id/concussionHighHit"
-                android:background="@android:color/transparent"
-                android:textAlignment="center"
-                android:gravity="center" />
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent">
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:id="@+id/errorImageView"
+                        android:src="@drawable/ic_error_black_18dp"
+                        android:scaleType="fitXY" android:contentDescription="@string/erroro_image_content_description"
+                        android:padding="5dp"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/high_concussion_event_text"
+                        android:id="@+id/concussionHighHit"
+                        android:background="@android:color/transparent"
+                        android:textAlignment="center"
+                        android:gravity="center"/>
+            </LinearLayout>
 
         </LinearLayout>
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/concussionMagnitudeTextView"
-            android:textSize="60dp"
-            android:textIsSelectable="false"
-            android:singleLine="true"
-            android:text="0:00 G"
-            android:background="@android:color/black"
-            android:gravity="center"
-            android:textStyle="italic" />
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/concussionMagnitudeTextView"
+                android:textSize="90sp"
+                android:textIsSelectable="false"
+                android:singleLine="true"
+                android:text="@string/sample_g_value"
+                android:background="@android:color/black"
+                android:gravity="center"
+                android:textStyle="italic" android:textColor="#fd1535"/>
     </LinearLayout>
 
     <TextView
